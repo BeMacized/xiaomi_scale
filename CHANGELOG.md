@@ -6,3 +6,7 @@ Initial release of plugin
 
 Formatting fixes
 
+## 0.0.3
+
+Updated readme
+
