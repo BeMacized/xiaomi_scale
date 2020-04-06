@@ -6,7 +6,7 @@ import 'mi-scale-data.dart';
 import 'mi-scale-device.dart';
 import 'mi-scale-measurement.dart';
 
-final Uuid BODY_COMPOSITION_SERVICE = Uuid([0x18, 0x1B]);
+final Uuid bodyCompositionService = Uuid([0x18, 0x1B]);
 
 class MiScale {
   static MiScale _instance;
@@ -78,7 +78,7 @@ class MiScale {
     controller = StreamController<MiScaleDevice>.broadcast(
       onListen: () async {
         scanSubscription = _ble.scanForDevices(
-            withServices: [BODY_COMPOSITION_SERVICE],
+            withServices: [bodyCompositionService],
             scanMode: ScanMode.lowLatency).listen((device) {
           // Determine the device type
           MiScaleDevice scaleDevice = MiScaleDevice.from(device);
@@ -114,7 +114,7 @@ class MiScale {
     controller = StreamController<MiScaleData>.broadcast(
       onListen: () {
         scanSubscription = _ble.scanForDevices(
-            withServices: [BODY_COMPOSITION_SERVICE],
+            withServices: [bodyCompositionService],
             scanMode: ScanMode.lowLatency).listen((device) {
           MiScaleDevice scaleDevice = MiScaleDevice.from(device);
           // Stop if it's not a known scale device 

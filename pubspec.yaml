@@ -3,7 +3,7 @@ description: A Flutter plugin for taking measurements from Bluetooth Xiaomi weig
 version: 0.0.3
 repository: https://github.com/BeMacized/xiaomi_scale
 issue_tracker: https://github.com/BeMacized/xiaomi_scale/issues
-homepage: https://bemacized.net/
+homepage: https://pub.dev/packages/xiaomi_scale/
 
 environment:
   sdk: ">=2.5.0 <3.0.0"
