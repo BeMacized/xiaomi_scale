@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+
 import 'device-types/mi-scale-device-v2.dart';
 import 'mi-scale-data.dart';
 

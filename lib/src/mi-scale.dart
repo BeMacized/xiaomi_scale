@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+
+import 'mi-scale-data.dart';
 import 'mi-scale-device.dart';
 import 'mi-scale-measurement.dart';
-import 'mi-scale-data.dart';
 
 final Uuid BODY_COMPOSITION_SERVICE = Uuid([0x18, 0x1B]);
 

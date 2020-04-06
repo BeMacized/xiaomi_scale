@@ -1,4 +1,5 @@
 import 'package:uuid/uuid.dart';
+
 import '../xiaomi_scale.dart';
 import 'mi-scale-unit.dart';
 
@@ -7,10 +8,13 @@ final Uuid _uuid = Uuid();
 enum MiScaleMeasurementStage {
   /// Person has stepped off the scale before the scale has stabilized
   WEIGHT_REMOVED,
+
   /// Person is on the scale, but the measurement is not stable yet
   MEASURING,
+
   /// Person is on the scale and the scale has stabilized. Scale is still be taking other measurements (Body fat, etc)
   STABILIZED,
+
   /// Measurement has fully completed.
   MEASURED,
 }
@@ -18,20 +22,25 @@ enum MiScaleMeasurementStage {
 class MiScaleMeasurement {
   /// The unique id of the measurement in uuid v4 format
   final String id;
+
   /// The id given to the device used for this measurement
   final String deviceId;
+
   /// The weight associated with this measurement
   ///
   /// The weight does not change anymore after [stage] has turned to [MiScaleMeasurementStage.STABILIZED]
   final double weight;
+
   /// The current stage this measurement is at.
   ///
   /// Starts out on [MiScaleMeasurementStage.MEASURING]
   /// When a person steps off the scale before reaching [MiScaleMeasurementStage.STABILIZED], it will move on to [MiScaleMeasurementStage.WEIGHT_REMOVED] instead.
   /// When a person steps off the scale after reaching [MiScaleMeasurementStage.STABILIZED], but before reaching [MiScaleMeasurementStage.MEASURED], the measurement will automatically move on to [MiScaleMeasurementStage.MEASURED].
   final MiScaleMeasurementStage stage;
+
   /// The weight unit for the current measurement, based on the device configuration
   final MiScaleUnit unit;
+
   /// The timestamp associated with this measurement.
   ///
   /// By default, it is based on the current host time, not the current device (scale) time.

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:xiaomi_scale_example/measurement-pane.dart';
 import 'package:xiaomi_scale_example/raw-data-pane.dart';
 import 'package:xiaomi_scale_example/scanning-pane.dart';

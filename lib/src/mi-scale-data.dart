@@ -1,20 +1,23 @@
-import 'dart:typed_data';
-
 import 'mi-scale-unit.dart';
 
 class MiScaleData {
   /// ID of the device this data was parsed from.
   final String deviceId;
   final double weight;
+
   /// Value is `true` if the weight has stabilized.
   final bool weightStabilized;
+
   /// Value is `true` if the device is done measuring.
   /// This value is usually given after other measurements (such as body fat) have been completed as well.
   final bool measurementComplete;
+
   /// Value is `true` if there is no weight detected.
   final bool weightRemoved;
+
   /// The currently configured weight unit on the device.
   final MiScaleUnit unit;
+
   /// The timestamp given by the device.
   ///
   /// Note that this value must only be considered valid if [weightRemoved] is `false` and [weightStabilized] is `true`.
