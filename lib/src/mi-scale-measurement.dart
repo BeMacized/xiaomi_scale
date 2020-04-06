@@ -1,5 +1,5 @@
 import 'package:uuid/uuid.dart';
-import '../xiaomi-scale.dart';
+import '../xiaomi_scale.dart';
 import 'mi-scale-unit.dart';
 
 final Uuid _uuid = Uuid();

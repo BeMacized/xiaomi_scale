@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_reactive_ble/src/model/discovered_device.dart';
 
-import '../../xiaomi-scale.dart';
+import '../../xiaomi_scale.dart';
 import '../mi-scale-device.dart';
 import '../mi-scale-unit.dart';
 

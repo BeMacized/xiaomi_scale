@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:xiaomi_scale/xiaomi-scale.dart';
+import 'package:xiaomi_scale/xiaomi_scale.dart';
 
 class MeasurementPane extends StatefulWidget {
   @override
