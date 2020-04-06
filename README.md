@@ -2,6 +2,8 @@
 
 A Flutter plugin to take measurements from Xiaomi weight scales.
 
+<img src="https://raw.githubusercontent.com/BeMacized/xiaomi_scale/master/readme_res/screenshots.png" alt="App Screenshots" width="512">
+
 **What it does:**
 
 * Track measurements
@@ -22,10 +24,6 @@ A Flutter plugin to take measurements from Xiaomi weight scales.
 
 * Sync historical data stored on device
 * Configure the device settings
-
-## Example App
-
-<img src="https://raw.githubusercontent.com/BeMacized/xiaomi_scale/master/readme_res/screenshots.png" alt="App Screenshots" width="512">
 
 ## Supported devices
 
