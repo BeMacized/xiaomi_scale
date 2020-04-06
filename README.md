@@ -52,7 +52,7 @@ You can keep track of measurements as follows:
 
 ```typescript
 StreamSubscription subscription =
-    _scale.takeMeasurements().listen((MiScaleMeasurement measurement) {
+    _mi.takeMeasurements().listen((MiScaleMeasurement measurement) {
   // Code for handing measurement
 });
 
@@ -67,7 +67,7 @@ Measurements must be cancelled before a new measurement can be started for the s
 In case you would like to cancel a measurement before the `MEASURED` stage is reached, it is up to you to cancel the measurement manually.
 
 ```typescript
-_scale.cancelMeasurement(deviceId)
+_mi.cancelMeasurement(deviceId)
 ```
 
 You can obtain the `deviceId` either from a `MiScaleMeasurement` or `MiScaleDevice` instance.
@@ -79,7 +79,7 @@ You can obtain the `deviceId` either from a `MiScaleMeasurement` or `MiScaleDevi
 The `discoverDevices` stream will only output compatible devices that it finds.
 
 ```typescript
-StreamSubscription subscription = _scale.discoverDevices(
+StreamSubscription subscription = _mi.discoverDevices(
   duration: Duration(seconds: 10), // Optional, default is 5 seconds
 ).listen(
   (MiScaleDevice device) {
@@ -96,7 +96,7 @@ subscription?.cancel();
 If you want to get the scale data directly without tracking measurements, you can do so as follows:
 
 ```typescript
-StreamSubscription subscription = _scale.readScaleData().listen(
+StreamSubscription subscription = _mi.readScaleData().listen(
         (data) {
           // Code to handle the scale data
         },
