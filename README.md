@@ -2,8 +2,6 @@
 
 A Flutter plugin to take measurements from Xiaomi weight scales.
 
-<img src="https://raw.githubusercontent.com/BeMacized/xiaomi_scale/master/readme_res/screenshots.png" alt="App Screenshots" width="768">
-
 **What it does:**
 
 * Track measurements
@@ -25,14 +23,18 @@ A Flutter plugin to take measurements from Xiaomi weight scales.
 * Sync historical data stored on device
 * Configure the device settings
 
+## Example App
+
+<img src="https://raw.githubusercontent.com/BeMacized/xiaomi_scale/master/readme_res/screenshots.png" alt="App Screenshots" width="512">
+
 ## Supported devices
 
 | **Image**                                                    | **Name**                    |
 | ------------------------------------------------------------ | --------------------------- |
-| <img src="https://raw.githubusercontent.com/BeMacized/xiaomi_scale/master/readme_res/scale_v2.jpg" alt="Mi Body Composition Scale 2" width="256"> | Mi Body Composition Scale 2 |
+| <img src="https://raw.githubusercontent.com/BeMacized/xiaomi_scale/master/readme_res/scale_v2.jpg" alt="Mi Body Composition Scale 2" width="128"> | Mi Body Composition Scale 2 |
 
 I am still looking to support the **Xiaomi Scale (v1)** as well (The one without the 4 electrodes on top).
-Sadly only own the v2 model, and am not able to test. In case you are willing to help out, please get in contact!
+I only have access to the v2 model, and therefore am not able to test. In case you have access to one and are willing to help out, please get in contact!
 
 ## How to use
 
