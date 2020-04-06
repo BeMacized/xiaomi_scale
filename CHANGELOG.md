@@ -2,3 +2,7 @@
 
 Initial release of plugin
 
+## 0.0.2
+
+Formatting fixes
+
