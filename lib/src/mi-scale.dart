@@ -62,7 +62,7 @@ class MiScale {
         controller.close();
       },
     );
-    return controller.stream;
+    return controller.stream.distinct();
   }
 
   /// Starts a scan for compatible devices

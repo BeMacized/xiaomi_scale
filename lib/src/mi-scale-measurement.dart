@@ -151,4 +151,25 @@ class MiScaleMeasurement {
     // Otherwise just return the previous measurement
     return previousMeasurement;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MiScaleMeasurement &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          deviceId == other.deviceId &&
+          weight == other.weight &&
+          stage == other.stage &&
+          unit == other.unit &&
+          dateTime == other.dateTime;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      deviceId.hashCode ^
+      weight.hashCode ^
+      stage.hashCode ^
+      unit.hashCode ^
+      dateTime.hashCode;
 }
