@@ -1,5 +1,7 @@
 # xiaomi_scale
 
+[![pub package](https://img.shields.io/pub/v/xiaomi_scale.svg)](https://pub.dartlang.org/packages/xiaomi_scale)
+
 A Flutter plugin to take measurements from Xiaomi weight scales.
 
 <img src="https://raw.githubusercontent.com/BeMacized/xiaomi_scale/master/readme_res/screenshots.png" alt="App Screenshots" width="512">
