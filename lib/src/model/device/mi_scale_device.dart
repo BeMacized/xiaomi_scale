@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
-import 'device-types/mi-scale-device-v2.dart';
-import 'mi-scale-data.dart';
+import '../mi_scale_data.dart';
+import 'mi_scale_device_v2.dart';
 
 abstract class MiScaleDevice {
   final DiscoveredDevice _device;
@@ -19,15 +19,14 @@ abstract class MiScaleDevice {
 
   MiScaleDevice(this._device);
 
-  /// Parse the raw advertisement data to obtain a [ScaleData] instance
+  /// Parse the raw advertisement data to obtain a [MiScaleData] instance
   MiScaleData parseScaleData(Uint8List data);
 
   /// Constructs an instance of an extending [MiScaleDevice] class.
   ///
   /// Returns `null` if [device] has no matching class for its device type.
   static MiScaleDevice from(DiscoveredDevice device) {
-    if (MiScaleDeviceV2.matchesDeviceType(device))
-      return MiScaleDeviceV2(device);
+    if (MiScaleDeviceV2.matchesDeviceType(device)) return MiScaleDeviceV2(device);
     return null;
   }
 }

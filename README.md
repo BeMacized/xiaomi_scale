@@ -51,6 +51,11 @@ Add a description why you want to use the bluetooth peripherals
 	<string>Connect to xiaomi scale to get weight</string>
 ```
 
+No need to ask for runtime permission. This is already handled by flutter_reactive_ble
+Best practice: 
+    You should check if the permission is already given. if not show a message to the user. You can only request the permission once.
+    After that you should check the status of the permission yourself. (this is not handled by this package or flutter_reactive_ble)
+
 ### Setup Android
 
 Min sdk Development Target => 24
@@ -62,6 +67,10 @@ flutter_reactive_ble adds these permissions automaticly
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 ```
+
+At runtime you should still request the location permissions yourself. Otherwise the app won't work.
+
+### Setup Dart
 
 
 For the examples below, grab an instance of `MiScale` first.

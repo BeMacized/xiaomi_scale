@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:xiaomi_scale/xiaomi_scale.dart';
+
+import 'util/permissions.dart';
 
 class ScanningPane extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class ScanningPane extends StatefulWidget {
 class _ScanningPaneState extends State<ScanningPane> {
   StreamSubscription _scanSubscription;
   Map<String, MiScaleDevice> devices = {}; // <Id, MiScaleDevice>
-  MiScale _scale = MiScale.instance;
+  final _scale = MiScale.instance;
 
   @override
   void dispose() {
@@ -20,9 +21,9 @@ class _ScanningPaneState extends State<ScanningPane> {
     super.dispose();
   }
 
-  void startDiscovery() async {
+  Future<void> startDiscovery() async {
     // Make sure we have location permission required for BLE scanning
-    if (!await _checkPermission()) return;
+    if (!await checkPermission()) return;
     // Clear device list
     devices = {};
     // Start scanning
@@ -38,7 +39,7 @@ class _ScanningPaneState extends State<ScanningPane> {
           print(e);
           stopDiscovery();
         },
-        onDone: () => stopDiscovery(),
+        onDone: stopDiscovery,
       );
     });
   }
@@ -49,44 +50,32 @@ class _ScanningPaneState extends State<ScanningPane> {
     if (!dispose) setState(() {});
   }
 
-  Future<bool> _checkPermission() async {
-    PermissionStatus status = await Permission.location.status;
-    if (status.isUndetermined || status.isDenied) {
-      status = await Permission.location.request();
-    }
-    return status.isGranted;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             RaisedButton(
-              child: Text('Start Scanning'),
+              child: const Text('Start Scanning'),
               onPressed: _scanSubscription == null ? startDiscovery : null,
             ),
             RaisedButton(
-              child: Text('Stop Scanning'),
+              child: const Text('Stop Scanning'),
               onPressed: _scanSubscription != null ? stopDiscovery : null,
             ),
           ],
         ),
         Opacity(
           opacity: _scanSubscription != null ? 1 : 0,
-          child: Center(child: CircularProgressIndicator()),
+          child: const Center(child: CircularProgressIndicator()),
         ),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
-              children: devices.values
-                  .map(
-                    (device) => _buildDeviceWidget(device),
-                  )
-                  .toList(),
+              children: devices.values.map(_buildDeviceWidget).toList(),
             ),
           ),
         )
@@ -97,27 +86,27 @@ class _ScanningPaneState extends State<ScanningPane> {
   Widget _buildDeviceWidget(MiScaleDevice device) {
     return Container(
       child: Row(
-        children: <Widget>[
+        children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text('Name: ' + device.name),
-                  Text('Device ID: ' + device.id),
+                children: [
+                  Text('Name: ${device.name}'),
+                  Text('Device ID: ${device.id}'),
                 ],
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text('RSSI: ' + device.rssi.toString() + 'dBm'),
+              children: [
+                Text('RSSI: ${device.rssi}dBm'),
               ],
             ),
           ),

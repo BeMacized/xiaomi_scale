@@ -1,8 +1,8 @@
 library xiaomi_scale;
 
-export 'src/device-types/mi-scale-device-v2.dart';
-export 'src/mi-scale-data.dart';
-export 'src/mi-scale-device.dart';
-export 'src/mi-scale-measurement.dart';
-export 'src/mi-scale-unit.dart';
-export 'src/mi-scale.dart';
+export 'src/mi_scale.dart';
+export 'src/model/device/mi_scale_device.dart';
+export 'src/model/device/mi_scale_device_v2.dart';
+export 'src/model/mi_scale_data.dart';
+export 'src/model/mi_scale_measurement.dart';
+export 'src/model/mi_scale_unit.dart';

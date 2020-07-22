@@ -2,23 +2,21 @@ import 'dart:async';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
-import 'mi-scale-data.dart';
-import 'mi-scale-device.dart';
-import 'mi-scale-measurement.dart';
+import 'model/device/mi_scale_device.dart';
+import 'model/mi_scale_data.dart';
+import 'model/mi_scale_measurement.dart';
 
 final Uuid bodyCompositionService = Uuid([0x18, 0x1B]);
 
 class MiScale {
+  //Internal singleton instance
   static MiScale _instance;
 
   /// Obtain the singleton [MiScale] instance
-  static MiScale get instance {
-    if (_instance == null) _instance = MiScale._internal();
-    return _instance;
-  }
+  static MiScale get instance => _instance ??= MiScale._internal();
 
   final _ble = FlutterReactiveBle();
-  Map<String, MiScaleMeasurement> _activeMeasurements = {};
+  final _activeMeasurements = <String, MiScaleMeasurement>{};
 
   MiScale._internal();
 
@@ -44,14 +42,15 @@ class MiScale {
       onListen: () {
         // Process scale data into measurements
         dataSubscription = readScaleData().listen((scaleData) {
-          MiScaleMeasurement measurement = MiScaleMeasurement.processData(
+          final measurement = MiScaleMeasurement.processData(
             _activeMeasurements[scaleData.deviceId], scaleData,
           );
           if (measurement != null &&
-              measurement.stage != MiScaleMeasurementStage.MEASURED)
+              measurement.stage != MiScaleMeasurementStage.MEASURED) {
             _activeMeasurements[scaleData.deviceId] = measurement;
-          else
+          } else {
             _activeMeasurements.remove(scaleData.deviceId);
+          }
           if (measurement != null) controller.add(measurement);
         });
       },
@@ -70,18 +69,15 @@ class MiScale {
   /// Found devices are returned as a [MiScaleDevice] instance.
   /// The scan will automatically stop after the set [duration].
   /// To stop the scan prematurely, cancel the returned stream.
-  Stream<MiScaleDevice> discoverDevices(
-      {Duration duration = const Duration(seconds: 5)}) {
+  Stream<MiScaleDevice> discoverDevices({Duration duration = const Duration(seconds: 5)}) {
     StreamSubscription scanSubscription;
     StreamController<MiScaleDevice> controller;
-    List<String> foundDeviceIds = [];
+    final foundDeviceIds = <String>[];
     controller = StreamController<MiScaleDevice>.broadcast(
       onListen: () async {
-        scanSubscription = _ble.scanForDevices(
-            withServices: [bodyCompositionService],
-            scanMode: ScanMode.lowLatency).listen((device) {
+        scanSubscription = scanForDevices().listen((device) {
           // Determine the device type
-          MiScaleDevice scaleDevice = MiScaleDevice.from(device);
+          final scaleDevice = MiScaleDevice.from(device);
           // If no device type found, stop
           if (scaleDevice == null) return;
           // If we already found it, stop
@@ -92,8 +88,8 @@ class MiScale {
           controller.add(scaleDevice);
         });
         await Future.delayed(duration);
-        scanSubscription?.cancel();
-        if (!controller.isClosed) controller.close();
+        await scanSubscription?.cancel();
+        if (!controller.isClosed) await controller.close();
       },
       onCancel: () {
         scanSubscription?.cancel();
@@ -113,16 +109,12 @@ class MiScale {
     StreamController<MiScaleData> controller;
     controller = StreamController<MiScaleData>.broadcast(
       onListen: () {
-        scanSubscription = _ble.scanForDevices(
-            withServices: [bodyCompositionService],
-            scanMode: ScanMode.lowLatency).listen((device) {
-          MiScaleDevice scaleDevice = MiScaleDevice.from(device);
+        scanSubscription = scanForDevices().listen((device) {
+          final scaleDevice = MiScaleDevice.from(device);
           // Stop if it's not a known scale device 
           if (scaleDevice == null) return;
           // Parse scale data
-          MiScaleData data = scaleDevice.parseScaleData(
-            device.serviceData.values.first,
-          );
+          final data = scaleDevice.parseScaleData(device.serviceData.values.first);
           if (data == null) return;
           // Emit data
           controller.add(data);
@@ -134,5 +126,12 @@ class MiScale {
       },
     );
     return controller.stream;
+  }
+
+  Stream<DiscoveredDevice> scanForDevices() {
+    return _ble.scanForDevices(
+      withServices: [bodyCompositionService],
+      scanMode: ScanMode.lowLatency,
+    );
   }
 }

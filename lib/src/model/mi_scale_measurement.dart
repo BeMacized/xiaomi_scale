@@ -1,7 +1,7 @@
 import 'package:uuid/uuid.dart';
 
-import '../xiaomi_scale.dart';
-import 'mi-scale-unit.dart';
+import 'mi_scale_data.dart';
+import 'mi_scale_unit.dart';
 
 final Uuid _uuid = Uuid();
 
@@ -53,8 +53,8 @@ class MiScaleMeasurement {
       this.stage,
       this.unit,
       DateTime dateTime})
-      : this.dateTime = dateTime ?? DateTime.now(),
-        this.id = id ?? _uuid.v4();
+      : dateTime = dateTime ?? DateTime.now(),
+        id = id ?? _uuid.v4();
 
   bool get isActive => stage != MiScaleMeasurementStage.MEASURED;
 
@@ -93,7 +93,7 @@ class MiScaleMeasurement {
         !scaleData.measurementComplete) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
-        weight: 0.0,
+        weight: 0,
         stage: MiScaleMeasurementStage.WEIGHT_REMOVED,
         unit: scaleData.unit,
       );

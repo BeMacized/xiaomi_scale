@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:xiaomi_scale/xiaomi_scale.dart';
+
+import 'util/permissions.dart';
 
 class RawDataPane extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class RawDataPane extends StatefulWidget {
 class _RawDataPaneState extends State<RawDataPane> {
   StreamSubscription _dataSubscription;
   List<MiScaleData> scaleData = [];
-  MiScale _scale = MiScale.instance;
+  final _scale = MiScale.instance;
 
   @override
   void dispose() {
@@ -21,9 +22,9 @@ class _RawDataPaneState extends State<RawDataPane> {
     stopTakingData(dispose: true);
   }
 
-  void startTakingData() async {
+  Future<void> startTakingData() async {
     // Make sure we have location permission required for BLE scanning
-    if (!await _checkPermission()) return;
+    if (!await checkPermission()) return;
     // Start taking measurements
     setState(() {
       _dataSubscription = _scale.readScaleData().listen(
@@ -37,7 +38,7 @@ class _RawDataPaneState extends State<RawDataPane> {
           print(e);
           stopTakingData();
         },
-        onDone: () => stopTakingData(),
+        onDone: stopTakingData,
       );
     });
   }
@@ -48,46 +49,35 @@ class _RawDataPaneState extends State<RawDataPane> {
     if (!dispose) setState(() {});
   }
 
-  Future<bool> _checkPermission() async {
-    PermissionStatus status = await Permission.location.status;
-    if (status.isUndetermined || status.isDenied) {
-      status = await Permission.location.request();
-    }
-    return status.isGranted;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             RaisedButton(
-              child: Text('Start Reading'),
+              child: const Text('Start Reading'),
               onPressed: _dataSubscription == null ? startTakingData : null,
             ),
             RaisedButton(
-              child: Text('Stop Reading'),
+              child: const Text('Stop Reading'),
               onPressed: _dataSubscription != null ? stopTakingData : null,
             ),
           ],
         ),
         Opacity(
           opacity: _dataSubscription != null ? 1 : 0,
-          child: Center(child: CircularProgressIndicator()),
+          child: const Center(child: CircularProgressIndicator()),
         ),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Text('Last 10 readings:'),
-              ]..addAll(
-                  scaleData.map(
-                    (data) => _buildScaleDataWidget(data),
-                  ),
-                ),
+                const Text('Last 10 readings:'),
+                ...scaleData.map(_buildScaleDataWidget),
+              ],
             ),
           ),
         )
@@ -98,7 +88,7 @@ class _RawDataPaneState extends State<RawDataPane> {
   Widget _buildScaleDataWidget(MiScaleData data) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Text(data.toString()),
       ),
     );
