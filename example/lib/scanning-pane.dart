@@ -16,8 +16,8 @@ class _ScanningPaneState extends State<ScanningPane> {
 
   @override
   void dispose() {
-    super.dispose();
     stopDiscovery(dispose: true);
+    super.dispose();
   }
 
   void startDiscovery() async {
@@ -29,6 +29,7 @@ class _ScanningPaneState extends State<ScanningPane> {
     setState(() {
       _scanSubscription = _scale.discoverDevices().listen(
         (device) {
+          print(device);
           setState(() {
             devices[device.id] = device;
           });
