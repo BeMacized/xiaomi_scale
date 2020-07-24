@@ -1,0 +1,4 @@
+enum MiScaleUnit {
+  KG,
+  LBS,
+}

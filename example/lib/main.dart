@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:xiaomi_scale_example/measurement-pane.dart';
-import 'package:xiaomi_scale_example/raw-data-pane.dart';
-import 'package:xiaomi_scale_example/scanning-pane.dart';
+import 'package:xiaomi_scale_example/measurement_pane.dart';
+import 'package:xiaomi_scale_example/scanning_pane.dart';
+import 'package:xiaomi_scale_example/raw_data_pane.dart';
 
 void main() {
   runApp(ScaleApp());
@@ -13,66 +13,46 @@ class ScaleApp extends StatefulWidget {
 }
 
 class _ScaleAppState extends State<ScaleApp> {
-  int bottomSelectedIndex = 0;
-
-  PageController pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
-
-  List<BottomNavigationBarItem> buildBottomNavBarItems() {
-    return [
-      BottomNavigationBarItem(
-        icon: new Icon(Icons.timeline),
-        title: new Text('Measurements'),
-      ),
-      BottomNavigationBarItem(
-        icon: new Icon(Icons.search),
-        title: new Text('Scanning'),
-      ),
-      BottomNavigationBarItem(
-          icon: Icon(Icons.description), title: Text('Raw Data'))
-    ];
-  }
-
-  void pageChanged(int index) {
-    setState(() {
-      bottomSelectedIndex = index;
-    });
-  }
-
-  void bottomTapped(int index) {
-    setState(() {
-      bottomSelectedIndex = index;
-      pageController.animateToPage(index,
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
-    });
-  }
+  var _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Scale Example App')),
-        body: PageView(
-          controller: pageController,
-          onPageChanged: (index) {
-            pageChanged(index);
-          },
-          children: <Widget>[
+        appBar: AppBar(
+          title: const Text('Scale Example App'),
+        ),
+        body: IndexedStack(
+          index: _currentIndex,
+          children: [
             MeasurementPane(),
             ScanningPane(),
             RawDataPane(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: bottomSelectedIndex,
-          onTap: (index) {
-            bottomTapped(index);
-          },
-          items: buildBottomNavBarItems(),
+          currentIndex: _currentIndex,
+          onTap: _bottomTapped,
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.black26,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.timeline),
+              title: Text('Measurements'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              title: Text('Scanning'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.description),
+              title: Text('Raw Data'),
+            ),
+          ],
         ),
       ),
     );
   }
+
+  void _bottomTapped(int index) => setState(() => _currentIndex = index);
 }

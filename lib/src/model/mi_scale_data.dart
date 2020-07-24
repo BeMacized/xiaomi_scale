@@ -1,4 +1,5 @@
-import 'mi-scale-unit.dart';
+
+import 'mi_scale_unit.dart';
 
 class MiScaleData {
   /// ID of the device this data was parsed from.

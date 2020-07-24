@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:xiaomi_scale/xiaomi_scale.dart';
+
+import 'util/permissions.dart';
 
 class MeasurementPane extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class MeasurementPane extends StatefulWidget {
 class _MeasurementPaneState extends State<MeasurementPane> {
   StreamSubscription _measurementSubscription;
   Map<String, MiScaleMeasurement> measurements = {}; // <Id, Measurement>
-  MiScale _scale = MiScale.instance;
+  final _scale = MiScale.instance;
 
   @override
   void dispose() {
@@ -20,9 +21,9 @@ class _MeasurementPaneState extends State<MeasurementPane> {
     stopTakingMeasurements(dispose: true);
   }
 
-  void startTakingMeasurements() async {
+  Future<void> startTakingMeasurements() async {
     // Make sure we have location permission required for BLE scanning
-    if (!await _checkPermission()) return;
+    if (!await checkPermission()) return;
     // Start taking measurements
     setState(() {
       _measurementSubscription = _scale.takeMeasurements().listen(
@@ -35,7 +36,7 @@ class _MeasurementPaneState extends State<MeasurementPane> {
           print(e);
           stopTakingMeasurements();
         },
-        onDone: () => stopTakingMeasurements(),
+        onDone: stopTakingMeasurements,
       );
     });
   }
@@ -46,48 +47,32 @@ class _MeasurementPaneState extends State<MeasurementPane> {
     if (!dispose) setState(() {});
   }
 
-  Future<bool> _checkPermission() async {
-    PermissionStatus status = await Permission.location.status;
-    if (status.isUndetermined || status.isDenied) {
-      status = await Permission.location.request();
-    }
-    return status.isGranted;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             RaisedButton(
-              child: Text('Start Taking Measurements'),
-              onPressed: _measurementSubscription == null
-                  ? startTakingMeasurements
-                  : null,
+              child: const Text('Start Taking Measurements'),
+              onPressed: _measurementSubscription == null ? startTakingMeasurements : null,
             ),
             RaisedButton(
-              child: Text('Stop Taking Measurements'),
-              onPressed: _measurementSubscription != null
-                  ? stopTakingMeasurements
-                  : null,
+              child: const Text('Stop Taking Measurements'),
+              onPressed: _measurementSubscription != null ? stopTakingMeasurements : null,
             ),
           ],
         ),
         Opacity(
           opacity: _measurementSubscription != null ? 1 : 0,
-          child: Center(child: CircularProgressIndicator()),
+          child: const Center(child: CircularProgressIndicator()),
         ),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
-              children: measurements.values
-                  .map(
-                    (measurement) => _buildMeasurementWidget(measurement),
-                  )
-                  .toList(),
+              children: measurements.values.map(_buildMeasurementWidget).toList(),
             ),
           ),
         )
@@ -98,17 +83,16 @@ class _MeasurementPaneState extends State<MeasurementPane> {
   Widget _buildMeasurementWidget(MiScaleMeasurement measurement) {
     return Container(
       child: Row(
-        children: <Widget>[
+        children: [
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   Text(
-                    measurement.weight.toStringAsFixed(2) +
-                        measurement.unit.toString().split('.')[1],
+                    measurement.weight.toStringAsFixed(2) + measurement.unit.toString().split('.')[1],
                   ),
                   Text(
                     measurement.stage.toString().split('.')[1],
@@ -121,13 +105,12 @@ class _MeasurementPaneState extends State<MeasurementPane> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
                 // Cancel the measurement if it is still active
-                if (measurement.isActive)
-                  _scale.cancelMeasurement(measurement.deviceId);
+                if (measurement.isActive) _scale.cancelMeasurement(measurement.deviceId);
                 // Remove the measurement from the list
                 setState(() {
                   measurements.remove(measurement.id);

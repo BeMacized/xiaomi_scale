@@ -40,7 +40,38 @@ I only have access to the v2 model, and therefore am not able to test. In case y
 
 First of all I can recommend to just take a look at the [example](https://github.com/BeMacized/xiaomi_scale/tree/master/example).
 
-**Note:** Make sure before using any functionality of this library, that permission has been given to scan for bluetooth devices. On Android, this is the `ACCESS_COARSE_LOCATION` permission.
+### Setup iOS
+
+Min iOS Development Target => 11
+This is because of flutter_reactive_ble
+
+Add a description why you want to use the bluetooth peripherals
+```
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Connect to xiaomi scale to get weight</string>
+```
+
+No need to ask for runtime permission. This is already handled by flutter_reactive_ble
+Best practice: 
+    You should check if the permission is already given. if not show a message to the user. You can only request the permission once.
+    After that you should check the status of the permission yourself. (this is not handled by this package or flutter_reactive_ble)
+
+### Setup Android
+
+Min sdk Development Target => 24
+This is because of flutter_reactive_ble
+
+flutter_reactive_ble adds these permissions automaticly
+```
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+```
+
+At runtime you should still request the location permissions yourself. Otherwise the app won't work.
+
+### Setup Dart
+
 
 For the examples below, grab an instance of `MiScale` first.
 
