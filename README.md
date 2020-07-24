@@ -45,7 +45,14 @@ First of all I can recommend to just take a look at the [example](https://github
 Min iOS Development Target => 11
 This is because of flutter_reactive_ble
 
-Add a description why you want to use the bluetooth peripherals
+Add a description why you want to use the bluetooth peripherals in the info.plist
+iOS13 and higher
+```
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Connect to xiaomi scale to get weight</string>
+```
+
+iOS12 and lower
 ```
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Connect to xiaomi scale to get weight</string>
