@@ -17,3 +17,9 @@ First major release
 ## 1.0.1
 
 Dismiss repeat measurement events that are identical.
+
+## 1.0.2
+
+Issues fixed that prevented library from working on iOS
+Various code improvements
+
