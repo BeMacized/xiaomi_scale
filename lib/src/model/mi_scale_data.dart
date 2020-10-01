@@ -1,4 +1,3 @@
-
 import 'mi_scale_unit.dart';
 
 class MiScaleData {
@@ -25,6 +24,8 @@ class MiScaleData {
   /// This can also be checked by calling [dateTimeValid]
   final DateTime dateTime;
 
+  final int impedance;
+
   MiScaleData({
     this.deviceId,
     this.weight,
@@ -33,6 +34,7 @@ class MiScaleData {
     this.weightRemoved,
     this.unit,
     this.dateTime,
+    this.impedance,
   });
 
   bool get dateTimeValid => weightStabilized && !weightRemoved;
@@ -50,13 +52,7 @@ class MiScaleData {
           dateTime == other.dateTime;
 
   @override
-  int get hashCode =>
-      weight.hashCode ^
-      weightStabilized.hashCode ^
-      measurementComplete.hashCode ^
-      weightRemoved.hashCode ^
-      unit.hashCode ^
-      dateTime.hashCode;
+  int get hashCode => weight.hashCode ^ weightStabilized.hashCode ^ measurementComplete.hashCode ^ weightRemoved.hashCode ^ unit.hashCode ^ dateTime.hashCode;
 
   @override
   String toString() {

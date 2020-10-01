@@ -100,6 +100,33 @@ class _MeasurementPaneState extends State<MeasurementPane> {
                   Text(
                     measurement.dateTime.toIso8601String(),
                   ),
+                  if (measurement.extraData != null) ...[
+                    Container(
+                      height: 2,
+                      color: Colors.grey,
+                    ),
+                    Text(
+                      'bodyFat: ${measurement.extraData.bodyFat}',
+                    ),
+                    Text(
+                      'boneMass: ${measurement.extraData.boneMass}',
+                    ),
+                    Text(
+                      'lbmCoefficient: ${measurement.extraData.lbmCoefficient}',
+                    ),
+                    Text(
+                      'muscleMass: ${measurement.extraData.muscleMass}',
+                    ),
+                    Text(
+                      'BMI: ${measurement.extraData.bmi}',
+                    ),
+                    Text(
+                      'water: ${measurement.extraData.water}',
+                    ),
+                    Text(
+                      'visceralFat: ${measurement.extraData.visceralFat}',
+                    ),
+                  ],
                 ],
               ),
             ),

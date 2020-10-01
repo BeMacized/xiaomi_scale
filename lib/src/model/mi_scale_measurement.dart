@@ -1,4 +1,6 @@
 import 'package:uuid/uuid.dart';
+import 'package:xiaomi_scale/src/model/gender.dart';
+import 'package:xiaomi_scale/src/model/mi_scale_extra_data.dart';
 
 import 'mi_scale_data.dart';
 import 'mi_scale_unit.dart';
@@ -40,30 +42,22 @@ class MiScaleMeasurement {
 
   /// The weight unit for the current measurement, based on the device configuration
   final MiScaleUnit unit;
+  final MiScaleExtraData extraData;
 
   /// The timestamp associated with this measurement.
   ///
   /// By default, it is based on the current host time, not the current device (scale) time.
   final DateTime dateTime;
 
-  MiScaleMeasurement(
-      {String id,
-      this.deviceId,
-      this.weight,
-      this.stage,
-      this.unit,
-      DateTime dateTime})
+  MiScaleMeasurement({String id, this.deviceId, this.weight, this.stage, this.unit, this.extraData, DateTime dateTime})
       : dateTime = dateTime ?? DateTime.now(),
         id = id ?? _uuid.v4();
 
   bool get isActive => stage != MiScaleMeasurementStage.MEASURED;
 
-  factory MiScaleMeasurement.processData(
-      MiScaleMeasurement previousMeasurement, MiScaleData scaleData) {
+  factory MiScaleMeasurement.processData(MiScaleMeasurement previousMeasurement, MiScaleData scaleData) {
     // Start new measurement if new weight is detected
-    if (previousMeasurement == null &&
-        !scaleData.weightRemoved &&
-        !scaleData.measurementComplete) {
+    if (previousMeasurement == null && !scaleData.weightRemoved && !scaleData.measurementComplete) {
       return MiScaleMeasurement(
         weight: scaleData.weight,
         stage: MiScaleMeasurementStage.MEASURING,
@@ -75,10 +69,7 @@ class MiScaleMeasurement {
     if (previousMeasurement == null) return null;
 
     // Update measurement if we're still measuring
-    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING &&
-        !scaleData.weightStabilized &&
-        !scaleData.measurementComplete &&
-        !scaleData.weightRemoved) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING && !scaleData.weightStabilized && !scaleData.measurementComplete && !scaleData.weightRemoved) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: scaleData.weight,
@@ -88,9 +79,7 @@ class MiScaleMeasurement {
     }
 
     // Handle person stepping off mid measurement
-    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING &&
-        scaleData.weightRemoved &&
-        !scaleData.measurementComplete) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING && scaleData.weightRemoved && !scaleData.measurementComplete) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: 0,
@@ -100,51 +89,51 @@ class MiScaleMeasurement {
     }
 
     // Handle person stepping back on mid measurement
-    if (previousMeasurement.stage == MiScaleMeasurementStage.WEIGHT_REMOVED &&
-        !scaleData.weightRemoved &&
-        !scaleData.measurementComplete) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.WEIGHT_REMOVED && !scaleData.weightRemoved && !scaleData.measurementComplete) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: scaleData.weight,
-        stage: scaleData.weightStabilized
-            ? MiScaleMeasurementStage.STABILIZED
-            : MiScaleMeasurementStage.MEASURING,
+        stage: scaleData.weightStabilized ? MiScaleMeasurementStage.STABILIZED : MiScaleMeasurementStage.MEASURING,
         unit: scaleData.unit,
       );
     }
 
     // Lock measurement if we've just stabilized
-    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING &&
-        !scaleData.weightRemoved &&
-        scaleData.weightStabilized) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING && !scaleData.weightRemoved && scaleData.weightStabilized) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: scaleData.weight,
         stage: MiScaleMeasurementStage.STABILIZED,
         unit: scaleData.unit,
+        extraData: null
       );
     }
 
     // Handle person stepping off after stabilizing, before done measuring
-    if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED &&
-        !scaleData.measurementComplete &&
-        scaleData.weightRemoved) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED && !scaleData.measurementComplete && scaleData.weightRemoved) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: previousMeasurement.weight,
         stage: MiScaleMeasurementStage.MEASURED,
         unit: scaleData.unit,
+        extraData: null,
       );
     }
 
     // Finalize measurement if we are done measuring
-    if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED &&
-        scaleData.measurementComplete) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED && scaleData.measurementComplete) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: previousMeasurement.weight,
         stage: MiScaleMeasurementStage.MEASURED,
         unit: scaleData.unit,
+        extraData: MiScaleExtraData(
+          gender: Gender.MALE,
+          age: 24,
+          height: 186,
+          weight: scaleData.weight,
+          impedance: scaleData.impedance,
+        ),
       );
     }
 
@@ -165,11 +154,5 @@ class MiScaleMeasurement {
           dateTime == other.dateTime;
 
   @override
-  int get hashCode =>
-      id.hashCode ^
-      deviceId.hashCode ^
-      weight.hashCode ^
-      stage.hashCode ^
-      unit.hashCode ^
-      dateTime.hashCode;
+  int get hashCode => id.hashCode ^ deviceId.hashCode ^ weight.hashCode ^ stage.hashCode ^ unit.hashCode ^ dateTime.hashCode;
 }
