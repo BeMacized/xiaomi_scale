@@ -38,15 +38,15 @@ class _ScaleAppState extends State<ScaleApp> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.timeline),
-              title: Text('Measurements'),
+              label: 'Measurements',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.search),
-              title: Text('Scanning'),
+              label: 'Scanning',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.description),
-              title: Text('Raw Data'),
+              label: 'Raw Data',
             ),
           ],
         ),

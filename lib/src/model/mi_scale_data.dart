@@ -26,13 +26,13 @@ class MiScaleData {
   final DateTime dateTime;
 
   MiScaleData({
-    this.deviceId,
-    this.weight,
-    this.weightStabilized,
-    this.measurementComplete,
-    this.weightRemoved,
-    this.unit,
-    this.dateTime,
+    required this.deviceId,
+    required this.weight,
+    required this.weightStabilized,
+    required this.measurementComplete,
+    required this.weightRemoved,
+    required this.unit,
+    required this.dateTime,
   });
 
   bool get dateTimeValid => weightStabilized && !weightRemoved;
