@@ -5,7 +5,7 @@ import 'package:xiaomi_scale/src/model/mi_scale_extra_data.dart';
 import 'mi_scale_data.dart';
 import 'mi_scale_unit.dart';
 
-final Uuid _uuid = Uuid();
+const Uuid _uuid = Uuid();
 
 enum MiScaleMeasurementStage {
   /// Person has stepped off the scale before the scale has stabilized
@@ -26,7 +26,7 @@ class MiScaleMeasurement {
   final String id;
 
   /// The id given to the device used for this measurement
-  final String deviceId;
+  final String? deviceId;
 
   /// The weight associated with this measurement
   ///
@@ -42,20 +42,29 @@ class MiScaleMeasurement {
 
   /// The weight unit for the current measurement, based on the device configuration
   final MiScaleUnit unit;
-  final MiScaleExtraData extraData;
+
+  /// The extra data that will be used to measure bmi, bone mass, fat percentage,... based on
+  final MiScaleExtraData? extraData;
 
   /// The timestamp associated with this measurement.
   ///
   /// By default, it is based on the current host time, not the current device (scale) time.
   final DateTime dateTime;
 
-  MiScaleMeasurement({String id, this.deviceId, this.weight, this.stage, this.unit, this.extraData, DateTime dateTime})
-      : dateTime = dateTime ?? DateTime.now(),
+  MiScaleMeasurement({
+    required this.weight,
+    required this.stage,
+    required this.unit,
+    this.deviceId,
+    this.extraData,
+    String? id,
+    DateTime? dateTime,
+  })  : dateTime = dateTime ?? DateTime.now(),
         id = id ?? _uuid.v4();
 
   bool get isActive => stage != MiScaleMeasurementStage.MEASURED;
 
-  factory MiScaleMeasurement.processData(MiScaleMeasurement previousMeasurement, MiScaleData scaleData) {
+  static MiScaleMeasurement? processData(MiScaleMeasurement? previousMeasurement, MiScaleData scaleData) {
     // Start new measurement if new weight is detected
     if (previousMeasurement == null && !scaleData.weightRemoved && !scaleData.measurementComplete) {
       return MiScaleMeasurement(
@@ -100,13 +109,7 @@ class MiScaleMeasurement {
 
     // Lock measurement if we've just stabilized
     if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING && !scaleData.weightRemoved && scaleData.weightStabilized) {
-      return MiScaleMeasurement(
-        id: previousMeasurement.id,
-        weight: scaleData.weight,
-        stage: MiScaleMeasurementStage.STABILIZED,
-        unit: scaleData.unit,
-        extraData: null
-      );
+      return MiScaleMeasurement(id: previousMeasurement.id, weight: scaleData.weight, stage: MiScaleMeasurementStage.STABILIZED, unit: scaleData.unit, extraData: null);
     }
 
     // Handle person stepping off after stabilizing, before done measuring
@@ -122,18 +125,21 @@ class MiScaleMeasurement {
 
     // Finalize measurement if we are done measuring
     if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED && scaleData.measurementComplete) {
+      final impedance = scaleData.impedance;
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: previousMeasurement.weight,
         stage: MiScaleMeasurementStage.MEASURED,
         unit: scaleData.unit,
-        extraData: MiScaleExtraData(
-          gender: Gender.MALE,
-          age: 24,
-          height: 186,
-          weight: scaleData.weight,
-          impedance: scaleData.impedance,
-        ),
+        extraData: impedance == null
+            ? null
+            : MiScaleExtraData(
+                gender: Gender.MALE,
+                age: 24,
+                height: 186,
+                weight: scaleData.weight,
+                impedance: impedance,
+              ),
       );
     }
 

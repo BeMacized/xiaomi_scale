@@ -8,11 +8,11 @@ class MiScaleExtraData {
   final int impedance;
 
   const MiScaleExtraData({
-    this.gender,
-    this.age,
-    this.height,
-    this.weight,
-    this.impedance,
+    required this.gender,
+    required this.age,
+    required this.height,
+    required this.weight,
+    required this.impedance,
   });
 
   double get lbmCoefficient {

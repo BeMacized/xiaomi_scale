@@ -24,17 +24,17 @@ class MiScaleData {
   /// This can also be checked by calling [dateTimeValid]
   final DateTime dateTime;
 
-  final int impedance;
+  final int? impedance;
 
   MiScaleData({
-    this.deviceId,
-    this.weight,
-    this.weightStabilized,
-    this.measurementComplete,
-    this.weightRemoved,
-    this.unit,
-    this.dateTime,
-    this.impedance,
+    required this.deviceId,
+    required this.weight,
+    required this.weightStabilized,
+    required this.measurementComplete,
+    required this.weightRemoved,
+    required this.unit,
+    required this.dateTime,
+    required this.impedance,
   });
 
   bool get dateTimeValid => weightStabilized && !weightRemoved;

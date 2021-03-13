@@ -57,11 +57,11 @@ class _RawDataPaneState extends State<RawDataPane> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Start Reading'),
               onPressed: _dataSubscription == null ? startTakingData : null,
             ),
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Stop Reading'),
               onPressed: _dataSubscription != null ? stopTakingData : null,
             ),

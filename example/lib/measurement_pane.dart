@@ -55,11 +55,11 @@ class _MeasurementPaneState extends State<MeasurementPane> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Start Taking Measurements'),
               onPressed: _measurementSubscription == null ? startTakingMeasurements : null,
             ),
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Stop Taking Measurements'),
               onPressed: _measurementSubscription != null ? stopTakingMeasurements : null,
             ),
@@ -134,7 +134,7 @@ class _MeasurementPaneState extends State<MeasurementPane> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () {
                 // Cancel the measurement if it is still active
                 if (measurement.isActive) _scale.cancelMeasurement(measurement.deviceId);
