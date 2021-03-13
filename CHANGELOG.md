@@ -1,3 +1,7 @@
+## 2.1.0
+Added:
+- Support for the extra data. Based on impedance
+
 ## 2.0.0
 Added:
 - Nullsafety
