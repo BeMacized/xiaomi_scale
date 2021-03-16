@@ -4,10 +4,10 @@ PODS:
     - Flutter
     - Protobuf (~> 3.5)
     - SwiftProtobuf (~> 1.0)
-  - "permission_handler (5.0.1+1)":
+  - "permission_handler (5.1.0+2)":
     - Flutter
-  - Protobuf (3.11.4)
-  - SwiftProtobuf (1.10.2)
+  - Protobuf (3.14.0)
+  - SwiftProtobuf (1.14.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -28,12 +28,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_reactive_ble: c94c6cc709a808656e1963c828663b2536c72010
-  permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
-  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
-  SwiftProtobuf: bec1ae7d686ff73dd09d79866154f4970b891410
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_reactive_ble: ac0ccac596f481b221549cad2abe16987e1f411b
+  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
+  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
+  SwiftProtobuf: ed465ed18402f998fd117f631da27e0168e6b59c
 
-PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.0

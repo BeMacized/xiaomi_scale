@@ -55,13 +55,23 @@ class _MeasurementPaneState extends State<MeasurementPane> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ElevatedButton(
-              child: const Text('Start Taking Measurements'),
-              onPressed: _measurementSubscription == null ? startTakingMeasurements : null,
+            Expanded(
+              child: ElevatedButton(
+                child: const Text(
+                  'Start Taking Measurements',
+                  textAlign: TextAlign.center,
+                ),
+                onPressed: _measurementSubscription == null ? startTakingMeasurements : null,
+              ),
             ),
-            ElevatedButton(
-              child: const Text('Stop Taking Measurements'),
-              onPressed: _measurementSubscription != null ? stopTakingMeasurements : null,
+            Expanded(
+              child: ElevatedButton(
+                child: const Text(
+                  'Stop Taking Measurements',
+                  textAlign: TextAlign.center,
+                ),
+                onPressed: _measurementSubscription != null ? stopTakingMeasurements : null,
+              ),
             ),
           ],
         ),
