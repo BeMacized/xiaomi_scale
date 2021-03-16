@@ -11,7 +11,7 @@ class ScanningPane extends StatefulWidget {
 }
 
 class _ScanningPaneState extends State<ScanningPane> {
-  StreamSubscription _scanSubscription;
+  StreamSubscription? _scanSubscription;
   Map<String, MiScaleDevice> devices = {}; // <Id, MiScaleDevice>
   final _scale = MiScale.instance;
 
@@ -58,11 +58,11 @@ class _ScanningPaneState extends State<ScanningPane> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Start Scanning'),
               onPressed: _scanSubscription == null ? startDiscovery : null,
             ),
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Stop Scanning'),
               onPressed: _scanSubscription != null ? stopDiscovery : null,
             ),

@@ -20,12 +20,12 @@ abstract class MiScaleDevice {
   MiScaleDevice(this._device);
 
   /// Parse the raw advertisement data to obtain a [MiScaleData] instance
-  MiScaleData parseScaleData(Uint8List data);
+  MiScaleData? parseScaleData(Uint8List data);
 
   /// Constructs an instance of an extending [MiScaleDevice] class.
   ///
   /// Returns `null` if [device] has no matching class for its device type.
-  static MiScaleDevice from(DiscoveredDevice device) {
+  static MiScaleDevice? from(DiscoveredDevice device) {
     if (MiScaleDeviceV2.matchesDeviceType(device)) return MiScaleDeviceV2(device);
     return null;
   }

@@ -11,7 +11,7 @@ class MeasurementPane extends StatefulWidget {
 }
 
 class _MeasurementPaneState extends State<MeasurementPane> {
-  StreamSubscription _measurementSubscription;
+  StreamSubscription? _measurementSubscription;
   Map<String, MiScaleMeasurement> measurements = {}; // <Id, Measurement>
   final _scale = MiScale.instance;
 
@@ -55,13 +55,23 @@ class _MeasurementPaneState extends State<MeasurementPane> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            RaisedButton(
-              child: const Text('Start Taking Measurements'),
-              onPressed: _measurementSubscription == null ? startTakingMeasurements : null,
+            Expanded(
+              child: ElevatedButton(
+                child: const Text(
+                  'Start Taking Measurements',
+                  textAlign: TextAlign.center,
+                ),
+                onPressed: _measurementSubscription == null ? startTakingMeasurements : null,
+              ),
             ),
-            RaisedButton(
-              child: const Text('Stop Taking Measurements'),
-              onPressed: _measurementSubscription != null ? stopTakingMeasurements : null,
+            Expanded(
+              child: ElevatedButton(
+                child: const Text(
+                  'Stop Taking Measurements',
+                  textAlign: TextAlign.center,
+                ),
+                onPressed: _measurementSubscription != null ? stopTakingMeasurements : null,
+              ),
             ),
           ],
         ),
@@ -107,10 +117,11 @@ class _MeasurementPaneState extends State<MeasurementPane> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () {
+                final deviceId = measurement.deviceId;
                 // Cancel the measurement if it is still active
-                if (measurement.isActive) _scale.cancelMeasurement(measurement.deviceId);
+                if (measurement.isActive && deviceId != null) _scale.cancelMeasurement(deviceId);
                 // Remove the measurement from the list
                 setState(() {
                   measurements.remove(measurement.id);

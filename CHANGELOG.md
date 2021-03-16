@@ -1,25 +1,30 @@
-## 0.0.1
+## 2.0.0
+Added:
+- Nullsafety
+Updated:
+- Version bump the flutter_reactive_ble so we can use the correct gradle dependency
 
-Initial release of plugin
+## 1.0.2
+Fixed:
+- Issues fixed that prevented library from working on iOS
+- Various code improvements
 
-## 0.0.2
-
-Formatting fixes
-
-## 0.0.3
-
-Updated readme
+## 1.0.1
+Fixed:
+- Dismiss repeat measurement events that are identical.
 
 ## 1.0.0
 
 First major release
 
-## 1.0.1
+## 0.0.3
+Updated:
+- Updated readme
 
-Dismiss repeat measurement events that are identical.
+## 0.0.2
+Fixed:
+- Formatting fixes
 
-## 1.0.2
+## 0.0.1
 
-Issues fixed that prevented library from working on iOS
-Various code improvements
-
+Initial release of plugin

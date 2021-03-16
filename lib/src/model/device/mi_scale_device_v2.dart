@@ -12,7 +12,7 @@ class MiScaleDeviceV2 extends MiScaleDevice {
         super(device);
 
   @override
-  MiScaleData parseScaleData(Uint8List data) {
+  MiScaleData? parseScaleData(Uint8List data) {
     return MiScaleDeviceV2._parseScaleData(id, data);
   }
 
@@ -21,7 +21,7 @@ class MiScaleDeviceV2 extends MiScaleDevice {
     return device.name == 'MIBFS' && device.serviceData.length == 1 && device.serviceData.values.first.length == 13;
   }
 
-  static MiScaleData _parseScaleData(String deviceId, Uint8List data) {
+  static MiScaleData? _parseScaleData(String deviceId, Uint8List data) {
     if (data.length != 13) return null;
     // Prepare data
     final byteData = data.buffer.asByteData();

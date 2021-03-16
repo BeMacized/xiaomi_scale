@@ -10,7 +10,7 @@ final Uuid bodyCompositionService = Uuid([0x18, 0x1B]);
 
 class MiScale {
   //Internal singleton instance
-  static MiScale _instance;
+  static MiScale? _instance;
 
   /// Obtain the singleton [MiScale] instance
   static MiScale get instance => _instance ??= MiScale._internal();
@@ -35,9 +35,9 @@ class MiScale {
   /// Multiple instances are emitted for the same measurement throughout the progress of the measurement to denote changes.
   /// The measurements continue to be taken until the returned stream is cancelled.
   Stream<MiScaleMeasurement> takeMeasurements() {
-    StreamSubscription dataSubscription;
-    StreamSubscription cleanUpSubscription;
-    StreamController<MiScaleMeasurement> controller;
+    StreamSubscription? dataSubscription;
+    StreamSubscription? cleanUpSubscription;
+    late StreamController<MiScaleMeasurement> controller;
     controller = StreamController<MiScaleMeasurement>.broadcast(
       onListen: () {
         // Process scale data into measurements
@@ -70,8 +70,8 @@ class MiScale {
   /// The scan will automatically stop after the set [duration].
   /// To stop the scan prematurely, cancel the returned stream.
   Stream<MiScaleDevice> discoverDevices({Duration duration = const Duration(seconds: 5)}) {
-    StreamSubscription scanSubscription;
-    StreamController<MiScaleDevice> controller;
+    StreamSubscription? scanSubscription;
+    late StreamController<MiScaleDevice> controller;
     final foundDeviceIds = <String>[];
     controller = StreamController<MiScaleDevice>.broadcast(
       onListen: () async {
@@ -105,8 +105,8 @@ class MiScale {
   /// The returned stream emits a [MiScaleData] for each received advertisement packet.
   /// Unless you need access to the parsed advertisement data directly, It is preferable to use [takeMeasurements] instead.
   Stream<MiScaleData> readScaleData() {
-    StreamSubscription scanSubscription;
-    StreamController<MiScaleData> controller;
+    StreamSubscription? scanSubscription;
+    late StreamController<MiScaleData> controller;
     controller = StreamController<MiScaleData>.broadcast(
       onListen: () {
         scanSubscription = scanForDevices().listen((device) {
