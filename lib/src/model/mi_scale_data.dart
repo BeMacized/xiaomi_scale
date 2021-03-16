@@ -1,4 +1,3 @@
-
 import 'mi_scale_unit.dart';
 
 class MiScaleData {

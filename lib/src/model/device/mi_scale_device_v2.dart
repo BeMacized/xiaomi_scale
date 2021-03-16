@@ -18,7 +18,9 @@ class MiScaleDeviceV2 extends MiScaleDevice {
 
   /// Determine whether this class matches the device type of the given device
   static bool matchesDeviceType(DiscoveredDevice device) {
-    return device.name == 'MIBFS' && device.serviceData.length == 1 && device.serviceData.values.first.length == 13;
+    return device.name == 'MIBFS' &&
+        device.serviceData.length == 1 &&
+        device.serviceData.values.first.length == 13;
   }
 
   static MiScaleData? _parseScaleData(String deviceId, Uint8List data) {
@@ -37,7 +39,8 @@ class MiScaleDeviceV2 extends MiScaleDevice {
     final hour = byteData.getUint8(6);
     final minute = byteData.getUint8(7);
     final seconds = byteData.getUint8(8);
-    final measurementTime = DateTime.utc(year, month, day, hour, minute, seconds);
+    final measurementTime =
+        DateTime.utc(year, month, day, hour, minute, seconds);
     // Parse weight
     var weight = byteData.getUint16(11, Endian.little).toDouble();
     if (unit == MiScaleUnit.LBS) {
