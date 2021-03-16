@@ -11,7 +11,7 @@ class ScanningPane extends StatefulWidget {
 }
 
 class _ScanningPaneState extends State<ScanningPane> {
-  StreamSubscription _scanSubscription;
+  StreamSubscription? _scanSubscription;
   Map<String, MiScaleDevice> devices = {}; // <Id, MiScaleDevice>
   final _scale = MiScale.instance;
 

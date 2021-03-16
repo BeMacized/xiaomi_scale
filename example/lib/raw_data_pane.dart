@@ -12,7 +12,7 @@ class RawDataPane extends StatefulWidget {
 }
 
 class _RawDataPaneState extends State<RawDataPane> {
-  StreamSubscription _dataSubscription;
+  StreamSubscription? _dataSubscription;
   List<MiScaleData> scaleData = [];
   final _scale = MiScale.instance;
 
