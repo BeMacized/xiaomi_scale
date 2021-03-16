@@ -11,7 +11,7 @@ class MeasurementPane extends StatefulWidget {
 }
 
 class _MeasurementPaneState extends State<MeasurementPane> {
-  StreamSubscription _measurementSubscription;
+  StreamSubscription? _measurementSubscription;
   Map<String, MiScaleMeasurement> measurements = {}; // <Id, Measurement>
   final _scale = MiScale.instance;
 
@@ -109,8 +109,9 @@ class _MeasurementPaneState extends State<MeasurementPane> {
             child: IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
+                final deviceId = measurement.deviceId;
                 // Cancel the measurement if it is still active
-                if (measurement.isActive) _scale.cancelMeasurement(measurement.deviceId);
+                if (measurement.isActive && deviceId != null) _scale.cancelMeasurement(deviceId);
                 // Remove the measurement from the list
                 setState(() {
                   measurements.remove(measurement.id);
