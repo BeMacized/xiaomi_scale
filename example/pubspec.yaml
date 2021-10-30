@@ -7,10 +7,11 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.3
+  device_info_plus: ^3.1.0
   flutter:
     sdk: flutter
-  permission_handler: ^6.1.0
+  permission_handler: ^8.2.5
   xiaomi_scale:
     path: ../
 
