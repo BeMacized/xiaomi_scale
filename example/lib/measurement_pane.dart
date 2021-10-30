@@ -122,25 +122,25 @@ class _MeasurementPaneState extends State<MeasurementPane> {
                       color: Colors.grey,
                     ),
                     Text(
-                      'bodyFat: ${measurement.extraData.bodyFat}',
+                      'bodyFat: ${measurement.extraData!.bodyFat}',
                     ),
                     Text(
-                      'boneMass: ${measurement.extraData.boneMass}',
+                      'boneMass: ${measurement.extraData!.boneMass}',
                     ),
                     Text(
-                      'lbmCoefficient: ${measurement.extraData.lbmCoefficient}',
+                      'lbmCoefficient: ${measurement.extraData!.lbmCoefficient}',
                     ),
                     Text(
-                      'muscleMass: ${measurement.extraData.muscleMass}',
+                      'muscleMass: ${measurement.extraData!.muscleMass}',
                     ),
                     Text(
-                      'BMI: ${measurement.extraData.bmi}',
+                      'BMI: ${measurement.extraData!.bmi}',
                     ),
                     Text(
-                      'water: ${measurement.extraData.water}',
+                      'water: ${measurement.extraData!.water}',
                     ),
                     Text(
-                      'visceralFat: ${measurement.extraData.visceralFat}',
+                      'visceralFat: ${measurement.extraData!.visceralFat}',
                     ),
                   ],
                 ],
@@ -154,8 +154,9 @@ class _MeasurementPaneState extends State<MeasurementPane> {
               onPressed: () {
                 final deviceId = measurement.deviceId;
                 // Cancel the measurement if it is still active
-                if (measurement.isActive && deviceId != null)
+                if (measurement.isActive && deviceId != null) {
                   _scale.cancelMeasurement(deviceId);
+                }
                 // Remove the measurement from the list
                 setState(() {
                   measurements.remove(measurement.id);
