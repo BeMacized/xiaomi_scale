@@ -33,6 +33,11 @@ class MiScaleMeasurement {
   /// The weight does not change anymore after [stage] has turned to [MiScaleMeasurementStage.STABILIZED]
   final double weight;
 
+  /// The impedance associated with this measurement
+  ///
+  /// The impedance does not change anymore after [stage] has turned to [MiScaleMeasurementStage.MEASURED]
+  final int? impedance;
+
   /// The current stage this measurement is at.
   ///
   /// Starts out on [MiScaleMeasurementStage.MEASURING]
@@ -42,9 +47,6 @@ class MiScaleMeasurement {
 
   /// The weight unit for the current measurement, based on the device configuration
   final MiScaleUnit unit;
-
-  /// The extra data that will be used to measure bmi, bone mass, fat percentage,... based on
-  final MiScaleExtraData? extraData;
 
   /// The timestamp associated with this measurement.
   ///
@@ -56,7 +58,7 @@ class MiScaleMeasurement {
     required this.stage,
     required this.unit,
     this.deviceId,
-    this.extraData,
+    this.impedance,
     String? id,
     DateTime? dateTime,
   })  : dateTime = dateTime ?? DateTime.now(),
@@ -128,7 +130,7 @@ class MiScaleMeasurement {
         weight: scaleData.weight,
         stage: MiScaleMeasurementStage.STABILIZED,
         unit: scaleData.unit,
-        extraData: null,
+        impedance: null,
       );
     }
 
@@ -141,32 +143,38 @@ class MiScaleMeasurement {
         weight: previousMeasurement.weight,
         stage: MiScaleMeasurementStage.MEASURED,
         unit: scaleData.unit,
-        extraData: null,
+        impedance: null,
       );
     }
 
     // Finalize measurement if we are done measuring
-    if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED && scaleData.measurementComplete) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED &&
+        scaleData.measurementComplete) {
       final impedance = scaleData.impedance;
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: previousMeasurement.weight,
         stage: MiScaleMeasurementStage.MEASURED,
         unit: scaleData.unit,
-        extraData: impedance == null
-            ? null
-            : MiScaleExtraData(
-                gender: Gender.MALE,
-                age: 24,
-                height: 186,
-                weight: scaleData.weight,
-                impedance: impedance,
-              ),
+        impedance: impedance,
       );
     }
 
     // Otherwise just return the previous measurement
     return previousMeasurement;
+  }
+
+  /// The extra data that will be used to measure bmi, bone mass, fat percentage,... based on
+  MiScaleExtraData? getExtraData(MiScaleGender gender, int age, double height) {
+    final impedance = this.impedance;
+    if (impedance == null) return null;
+    return MiScaleExtraData(
+      gender: gender,
+      age: age,
+      height: height,
+      weight: weight,
+      impedance: impedance,
+    );
   }
 
   @override

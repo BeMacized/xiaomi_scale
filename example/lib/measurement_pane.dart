@@ -96,6 +96,7 @@ class _MeasurementPaneState extends State<MeasurementPane> {
   }
 
   Widget _buildMeasurementWidget(MiScaleMeasurement measurement) {
+    final extraData = measurement.getExtraData(MiScaleGender.MALE, 25, 188);
     return Container(
       child: Row(
         children: [
@@ -116,31 +117,31 @@ class _MeasurementPaneState extends State<MeasurementPane> {
                   Text(
                     measurement.dateTime.toIso8601String(),
                   ),
-                  if (measurement.extraData != null) ...[
+                  if (extraData != null) ...[
                     Container(
                       height: 2,
                       color: Colors.grey,
                     ),
                     Text(
-                      'bodyFat: ${measurement.extraData!.bodyFat}',
+                      'bodyFat: ${extraData.bodyFat}',
                     ),
                     Text(
-                      'boneMass: ${measurement.extraData!.boneMass}',
+                      'boneMass: ${extraData.boneMass}',
                     ),
                     Text(
-                      'lbmCoefficient: ${measurement.extraData!.lbmCoefficient}',
+                      'lbmCoefficient: ${extraData.lbmCoefficient}',
                     ),
                     Text(
-                      'muscleMass: ${measurement.extraData!.muscleMass}',
+                      'muscleMass: ${extraData.muscleMass}',
                     ),
                     Text(
-                      'BMI: ${measurement.extraData!.bmi}',
+                      'BMI: ${extraData.bmi}',
                     ),
                     Text(
-                      'water: ${measurement.extraData!.water}',
+                      'water: ${extraData.water}',
                     ),
                     Text(
-                      'visceralFat: ${measurement.extraData!.visceralFat}',
+                      'visceralFat: ${extraData.visceralFat}',
                     ),
                   ],
                 ],

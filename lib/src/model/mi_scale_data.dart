@@ -52,7 +52,13 @@ class MiScaleData {
           dateTime == other.dateTime;
 
   @override
-  int get hashCode => weight.hashCode ^ weightStabilized.hashCode ^ measurementComplete.hashCode ^ weightRemoved.hashCode ^ unit.hashCode ^ dateTime.hashCode;
+  int get hashCode =>
+      weight.hashCode ^
+      weightStabilized.hashCode ^
+      measurementComplete.hashCode ^
+      weightRemoved.hashCode ^
+      unit.hashCode ^
+      dateTime.hashCode;
 
   @override
   String toString() {
