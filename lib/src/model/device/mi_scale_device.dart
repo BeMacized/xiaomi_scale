@@ -26,7 +26,8 @@ abstract class MiScaleDevice {
   ///
   /// Returns `null` if [device] has no matching class for its device type.
   static MiScaleDevice? from(DiscoveredDevice device) {
-    if (MiScaleDeviceV2.matchesDeviceType(device)) return MiScaleDeviceV2(device);
+    if (MiScaleDeviceV2.matchesDeviceType(device))
+      return MiScaleDeviceV2(device);
     return null;
   }
 }

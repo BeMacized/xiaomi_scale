@@ -64,9 +64,12 @@ class MiScaleMeasurement {
 
   bool get isActive => stage != MiScaleMeasurementStage.MEASURED;
 
-  static MiScaleMeasurement? processData(MiScaleMeasurement? previousMeasurement, MiScaleData scaleData) {
+  static MiScaleMeasurement? processData(
+      MiScaleMeasurement? previousMeasurement, MiScaleData scaleData) {
     // Start new measurement if new weight is detected
-    if (previousMeasurement == null && !scaleData.weightRemoved && !scaleData.measurementComplete) {
+    if (previousMeasurement == null &&
+        !scaleData.weightRemoved &&
+        !scaleData.measurementComplete) {
       return MiScaleMeasurement(
         weight: scaleData.weight,
         stage: MiScaleMeasurementStage.MEASURING,
@@ -78,7 +81,10 @@ class MiScaleMeasurement {
     if (previousMeasurement == null) return null;
 
     // Update measurement if we're still measuring
-    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING && !scaleData.weightStabilized && !scaleData.measurementComplete && !scaleData.weightRemoved) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING &&
+        !scaleData.weightStabilized &&
+        !scaleData.measurementComplete &&
+        !scaleData.weightRemoved) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: scaleData.weight,
@@ -88,7 +94,9 @@ class MiScaleMeasurement {
     }
 
     // Handle person stepping off mid measurement
-    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING && scaleData.weightRemoved && !scaleData.measurementComplete) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING &&
+        scaleData.weightRemoved &&
+        !scaleData.measurementComplete) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: 0,
@@ -98,22 +106,36 @@ class MiScaleMeasurement {
     }
 
     // Handle person stepping back on mid measurement
-    if (previousMeasurement.stage == MiScaleMeasurementStage.WEIGHT_REMOVED && !scaleData.weightRemoved && !scaleData.measurementComplete) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.WEIGHT_REMOVED &&
+        !scaleData.weightRemoved &&
+        !scaleData.measurementComplete) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: scaleData.weight,
-        stage: scaleData.weightStabilized ? MiScaleMeasurementStage.STABILIZED : MiScaleMeasurementStage.MEASURING,
+        stage: scaleData.weightStabilized
+            ? MiScaleMeasurementStage.STABILIZED
+            : MiScaleMeasurementStage.MEASURING,
         unit: scaleData.unit,
       );
     }
 
     // Lock measurement if we've just stabilized
-    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING && !scaleData.weightRemoved && scaleData.weightStabilized) {
-      return MiScaleMeasurement(id: previousMeasurement.id, weight: scaleData.weight, stage: MiScaleMeasurementStage.STABILIZED, unit: scaleData.unit, extraData: null);
+    if (previousMeasurement.stage == MiScaleMeasurementStage.MEASURING &&
+        !scaleData.weightRemoved &&
+        scaleData.weightStabilized) {
+      return MiScaleMeasurement(
+        id: previousMeasurement.id,
+        weight: scaleData.weight,
+        stage: MiScaleMeasurementStage.STABILIZED,
+        unit: scaleData.unit,
+        extraData: null,
+      );
     }
 
     // Handle person stepping off after stabilizing, before done measuring
-    if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED && !scaleData.measurementComplete && scaleData.weightRemoved) {
+    if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED &&
+        !scaleData.measurementComplete &&
+        scaleData.weightRemoved) {
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: previousMeasurement.weight,
@@ -160,5 +182,11 @@ class MiScaleMeasurement {
           dateTime == other.dateTime;
 
   @override
-  int get hashCode => id.hashCode ^ deviceId.hashCode ^ weight.hashCode ^ stage.hashCode ^ unit.hashCode ^ dateTime.hashCode;
+  int get hashCode =>
+      id.hashCode ^
+      deviceId.hashCode ^
+      weight.hashCode ^
+      stage.hashCode ^
+      unit.hashCode ^
+      dateTime.hashCode;
 }

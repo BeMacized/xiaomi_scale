@@ -146,3 +146,9 @@ StreamSubscription subscription = _mi.readScaleData().listen(
 subscription.cancel();
 ```
 
+## How to adjust ProGuard (Android)
+In case you are using ProGuard add the following snippet to your proguard-rules.pro file:
+
+```
+-keep class com.signify.hue.** { *; }
+```

@@ -43,7 +43,8 @@ class MiScale {
         // Process scale data into measurements
         dataSubscription = readScaleData().listen((scaleData) {
           final measurement = MiScaleMeasurement.processData(
-            _activeMeasurements[scaleData.deviceId], scaleData,
+            _activeMeasurements[scaleData.deviceId],
+            scaleData,
           );
           if (measurement != null &&
               measurement.stage != MiScaleMeasurementStage.MEASURED) {
@@ -69,7 +70,8 @@ class MiScale {
   /// Found devices are returned as a [MiScaleDevice] instance.
   /// The scan will automatically stop after the set [duration].
   /// To stop the scan prematurely, cancel the returned stream.
-  Stream<MiScaleDevice> discoverDevices({Duration duration = const Duration(seconds: 5)}) {
+  Stream<MiScaleDevice> discoverDevices(
+      {Duration duration = const Duration(seconds: 5)}) {
     StreamSubscription? scanSubscription;
     late StreamController<MiScaleDevice> controller;
     final foundDeviceIds = <String>[];
@@ -111,10 +113,11 @@ class MiScale {
       onListen: () {
         scanSubscription = scanForDevices().listen((device) {
           final scaleDevice = MiScaleDevice.from(device);
-          // Stop if it's not a known scale device 
+          // Stop if it's not a known scale device
           if (scaleDevice == null) return;
           // Parse scale data
-          final data = scaleDevice.parseScaleData(device.serviceData.values.first);
+          final data =
+              scaleDevice.parseScaleData(device.serviceData.values.first);
           if (data == null) return;
           // Emit data
           controller.add(data);

@@ -61,7 +61,9 @@ class _MeasurementPaneState extends State<MeasurementPane> {
                   'Start Taking Measurements',
                   textAlign: TextAlign.center,
                 ),
-                onPressed: _measurementSubscription == null ? startTakingMeasurements : null,
+                onPressed: _measurementSubscription == null
+                    ? startTakingMeasurements
+                    : null,
               ),
             ),
             Expanded(
@@ -70,7 +72,9 @@ class _MeasurementPaneState extends State<MeasurementPane> {
                   'Stop Taking Measurements',
                   textAlign: TextAlign.center,
                 ),
-                onPressed: _measurementSubscription != null ? stopTakingMeasurements : null,
+                onPressed: _measurementSubscription != null
+                    ? stopTakingMeasurements
+                    : null,
               ),
             ),
           ],
@@ -82,7 +86,8 @@ class _MeasurementPaneState extends State<MeasurementPane> {
         Expanded(
           child: SingleChildScrollView(
             child: Column(
-              children: measurements.values.map(_buildMeasurementWidget).toList(),
+              children:
+                  measurements.values.map(_buildMeasurementWidget).toList(),
             ),
           ),
         )
@@ -102,7 +107,8 @@ class _MeasurementPaneState extends State<MeasurementPane> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    measurement.weight.toStringAsFixed(2) + measurement.unit.toString().split('.')[1],
+                    measurement.weight.toStringAsFixed(2) +
+                        measurement.unit.toString().split('.')[1],
                   ),
                   Text(
                     measurement.stage.toString().split('.')[1],
@@ -148,7 +154,8 @@ class _MeasurementPaneState extends State<MeasurementPane> {
               onPressed: () {
                 final deviceId = measurement.deviceId;
                 // Cancel the measurement if it is still active
-                if (measurement.isActive && deviceId != null) _scale.cancelMeasurement(deviceId);
+                if (measurement.isActive && deviceId != null)
+                  _scale.cancelMeasurement(deviceId);
                 // Remove the measurement from the list
                 setState(() {
                   measurements.remove(measurement.id);
