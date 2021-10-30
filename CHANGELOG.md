@@ -1,3 +1,11 @@
+## 2.1.0
+Updated:
+- Version bump the flutter_reactive_ble so we can use the correct gradle dependency
+Updated example:
+- Updated example to compile sdk 31
+- Disabled arm simulators for example
+
+
 ## 2.0.0
 Added:
 - Nullsafety

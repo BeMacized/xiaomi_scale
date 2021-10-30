@@ -127,8 +127,9 @@ class _MeasurementPaneState extends State<MeasurementPane> {
               onPressed: () {
                 final deviceId = measurement.deviceId;
                 // Cancel the measurement if it is still active
-                if (measurement.isActive && deviceId != null)
+                if (measurement.isActive && deviceId != null) {
                   _scale.cancelMeasurement(deviceId);
+                }
                 // Remove the measurement from the list
                 setState(() {
                   measurements.remove(measurement.id);
