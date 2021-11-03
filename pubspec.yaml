@@ -12,9 +12,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_reactive_ble: ^3.0.0-nullsafety.0
-  rxdart: ^0.26.0
-  uuid: ^3.0.1
+  flutter_reactive_ble: ^5.0.1
+  rxdart: ^0.27.2
+  uuid: ^3.0.5
 
 dev_dependencies:
   flutter_test:
