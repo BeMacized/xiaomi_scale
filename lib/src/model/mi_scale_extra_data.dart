@@ -1,13 +1,13 @@
 import 'package:xiaomi_scale/src/model/gender.dart';
 
-class MiScaleExtraData {
+class MiScaleBodyData {
   final MiScaleGender gender;
   final int age;
   final double height;
   final double weight;
   final int impedance;
 
-  const MiScaleExtraData({
+  const MiScaleBodyData({
     required this.gender,
     required this.age,
     required this.height,

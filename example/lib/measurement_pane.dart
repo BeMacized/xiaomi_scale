@@ -96,7 +96,7 @@ class _MeasurementPaneState extends State<MeasurementPane> {
   }
 
   Widget _buildMeasurementWidget(MiScaleMeasurement measurement) {
-    final extraData = measurement.getExtraData(MiScaleGender.MALE, 25, 188);
+    final extraData = measurement.getBodyData(MiScaleGender.MALE, 25, 188);
     return Container(
       child: Row(
         children: [

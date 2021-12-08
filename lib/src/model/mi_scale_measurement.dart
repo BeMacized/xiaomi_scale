@@ -165,10 +165,10 @@ class MiScaleMeasurement {
   }
 
   /// The extra data that will be used to measure bmi, bone mass, fat percentage,... based on
-  MiScaleExtraData? getExtraData(MiScaleGender gender, int age, double height) {
+  MiScaleBodyData? getBodyData(MiScaleGender gender, int age, double height) {
     final impedance = this.impedance;
     if (impedance == null) return null;
-    return MiScaleExtraData(
+    return MiScaleBodyData(
       gender: gender,
       age: age,
       height: height,

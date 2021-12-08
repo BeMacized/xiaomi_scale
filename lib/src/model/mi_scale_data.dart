@@ -1,3 +1,5 @@
+import 'gender.dart';
+import 'mi_scale_extra_data.dart';
 import 'mi_scale_unit.dart';
 
 class MiScaleData {
@@ -36,6 +38,19 @@ class MiScaleData {
     required this.dateTime,
     required this.impedance,
   });
+
+  /// The extra data that will be used to measure bmi, bone mass, fat percentage,... based on
+  MiScaleBodyData? getBodyData(MiScaleGender gender, int age, double height) {
+    final impedance = this.impedance;
+    if (impedance == null) return null;
+    return MiScaleBodyData(
+      gender: gender,
+      age: age,
+      height: height,
+      weight: weight,
+      impedance: impedance,
+    );
+  }
 
   bool get dateTimeValid => weightStabilized && !weightRemoved;
 
