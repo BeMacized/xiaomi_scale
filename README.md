@@ -11,16 +11,28 @@ A Flutter plugin to take measurements from Xiaomi weight scales.
 * Track measurements
   * Weight
   * Device weight unit (kg/lbs)
+  * Impedance
   * Progress (e.g. Measuring -> Stabilized -> Measured)
 * Scan for nearby Xiaomi scales
 * Direct scale data
   * Weight
   * Device weight unit
   * Device timestamp
+  * Impedance
   * Flags
     * Weight stabilized
     * Weight removed
     * Measurement completes
+* Calculate* body data from impedance:
+  * Body fat
+  * Visceral Fat
+  * Bone Mass
+  * Water
+  * Muscle Mass
+  * BMI
+  * LBM Coefficient
+
+_* Note: These values are calculated through reverse engineered functions. While they should be similar to what the official app by Xiaomi reads, their accuracy is similarly not guaranteed and should be taken with a grain of salt._
 
 **What it does NOT do:**
 
