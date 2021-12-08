@@ -1,3 +1,7 @@
+## 2.2.1
+Updated:
+- Pubspec homepage
+
 ## 2.2.0
 Added:
 - Support for extra body data, based on impedance.
