@@ -1,6 +1,6 @@
 name: xiaomi_scale
 description: A Flutter plugin for taking measurements from Bluetooth Xiaomi weight scales
-version: 2.1.0
+version: 2.2.0
 repository: https://github.com/BeMacized/xiaomi_scale
 issue_tracker: https://github.com/BeMacized/xiaomi_scale/issues
 homepage: https://pub.dev/packages/xiaomi_scale/

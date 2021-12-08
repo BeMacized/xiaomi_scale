@@ -1,6 +1,6 @@
 ## 2.2.0
 Added:
-- Support for the extra data. Based on impedance
+- Support for extra body data, based on impedance.
 
 ## 2.1.0
 Updated:
