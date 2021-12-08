@@ -1,4 +1,6 @@
 import 'package:uuid/uuid.dart';
+import 'package:xiaomi_scale/src/model/gender.dart';
+import 'package:xiaomi_scale/src/model/mi_scale_extra_data.dart';
 
 import 'mi_scale_data.dart';
 import 'mi_scale_unit.dart';
@@ -31,6 +33,11 @@ class MiScaleMeasurement {
   /// The weight does not change anymore after [stage] has turned to [MiScaleMeasurementStage.STABILIZED]
   final double weight;
 
+  /// The impedance associated with this measurement
+  ///
+  /// The impedance does not change anymore after [stage] has turned to [MiScaleMeasurementStage.MEASURED]
+  final int? impedance;
+
   /// The current stage this measurement is at.
   ///
   /// Starts out on [MiScaleMeasurementStage.MEASURING]
@@ -51,6 +58,7 @@ class MiScaleMeasurement {
     required this.stage,
     required this.unit,
     this.deviceId,
+    this.impedance,
     String? id,
     DateTime? dateTime,
   })  : dateTime = dateTime ?? DateTime.now(),
@@ -122,6 +130,7 @@ class MiScaleMeasurement {
         weight: scaleData.weight,
         stage: MiScaleMeasurementStage.STABILIZED,
         unit: scaleData.unit,
+        impedance: null,
       );
     }
 
@@ -134,22 +143,38 @@ class MiScaleMeasurement {
         weight: previousMeasurement.weight,
         stage: MiScaleMeasurementStage.MEASURED,
         unit: scaleData.unit,
+        impedance: null,
       );
     }
 
     // Finalize measurement if we are done measuring
     if (previousMeasurement.stage == MiScaleMeasurementStage.STABILIZED &&
         scaleData.measurementComplete) {
+      final impedance = scaleData.impedance;
       return MiScaleMeasurement(
         id: previousMeasurement.id,
         weight: previousMeasurement.weight,
         stage: MiScaleMeasurementStage.MEASURED,
         unit: scaleData.unit,
+        impedance: impedance,
       );
     }
 
     // Otherwise just return the previous measurement
     return previousMeasurement;
+  }
+
+  /// The extra data that will be used to measure bmi, bone mass, fat percentage,... based on
+  MiScaleBodyData? getBodyData(MiScaleGender gender, int age, double height) {
+    final impedance = this.impedance;
+    if (impedance == null) return null;
+    return MiScaleBodyData(
+      gender: gender,
+      age: age,
+      height: height,
+      weight: weight,
+      impedance: impedance,
+    );
   }
 
   @override

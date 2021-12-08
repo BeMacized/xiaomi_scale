@@ -1,0 +1,4 @@
+enum MiScaleGender {
+  MALE,
+  FEMALE,
+}

@@ -31,6 +31,12 @@ class MiScaleDeviceV2 extends MiScaleDevice {
     final measurementComplete = data[1] & (0x01 << 1) != 0;
     final weightStabilized = data[1] & (0x01 << 5) != 0;
     final weightRemoved = data[1] & (0x01 << 7) != 0;
+
+    int? impedance;
+    if (measurementComplete) {
+      impedance = ((data[10] & 0xFF) << 8) | (data[9] & 0xFF);
+    }
+
     final unit = (data[0] & 0x01 != 0) ? MiScaleUnit.LBS : MiScaleUnit.KG;
     // Parse date
     final year = byteData.getUint16(2, Endian.little);
@@ -57,6 +63,7 @@ class MiScaleDeviceV2 extends MiScaleDevice {
       unit: unit,
       dateTime: measurementTime,
       weight: weight,
+      impedance: impedance,
     );
   }
 }
